@@ -1,5 +1,5 @@
 {
-  "name": "electron-react",
+  "name": "readit",
   "description": "Using electron with react",
   "scripts": {
     "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
