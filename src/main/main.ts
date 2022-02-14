@@ -9,6 +9,7 @@ import windowStateKeeper from 'electron-window-state';
 
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import readItem from './readItem';
 
 export default class AppUpdater {
   constructor() {
@@ -19,6 +20,13 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+
+ipcMain.on('read-item', (e, url) => {
+  readItem(url, (item) => {
+    // console.log(item);
+    // e.sender.send('new-item-success', item);
+  });
+});
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
@@ -77,9 +85,13 @@ const createWindow = async () => {
     height: mainWindowState.height,
     icon: getAssetPath('icon.png'),
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      // preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      contextIsolation: false,
     },
   });
+
+  mainWindowState.manage(mainWindow);
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 

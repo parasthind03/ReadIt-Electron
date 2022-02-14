@@ -30,7 +30,8 @@ const configuration: webpack.Configuration = {
 
   mode: 'production',
 
-  target: ['web', 'electron-renderer'],
+  // target: ['web', 'electron-renderer'],
+   target: 'electron-renderer',
 
   entry: [
     'core-js',
@@ -42,9 +43,6 @@ const configuration: webpack.Configuration = {
     path: webpackPaths.distRendererPath,
     publicPath: './',
     filename: 'renderer.js',
-    library: {
-      type: 'umd',
-    },
   },
 
   module: {
