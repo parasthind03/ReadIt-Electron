@@ -3,7 +3,6 @@
 import { BrowserWindow } from 'electron';
 
 type NewItemType = {
-  url: string;
   screenshot: string;
   title: string | undefined;
 };
@@ -17,6 +16,7 @@ function readItem(url: string, cb: (item: NewItemType) => void) {
     show: false,
     webPreferences: {
       offscreen: true,
+      devTools: false,
     },
   });
 
@@ -25,17 +25,14 @@ function readItem(url: string, cb: (item: NewItemType) => void) {
   offscreenWindow.webContents.on('did-finish-load', () => {
     const title = offscreenWindow?.getTitle();
 
-    offscreenWindow?.webContents
-      .capturePage()
-      .then((image) => {
-        const screenshot = image.toDataURL();
+    offscreenWindow?.webContents.capturePage().then((image) => {
+      const screenshot = image.toDataURL();
 
-        offscreenWindow?.close();
-        offscreenWindow = null;
-        // console.log(url);
-        cb({ title, screenshot, url });
-      })
-      .catch((err) => console.log(err));
+      offscreenWindow?.close();
+      offscreenWindow = null;
+      // console.log(url);
+      cb({ title, screenshot });
+    });
   });
 }
 

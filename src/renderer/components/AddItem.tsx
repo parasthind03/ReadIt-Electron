@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/no-autofocus */
 /* eslint-disable prettier/prettier */
@@ -8,25 +9,37 @@ import { ipcRenderer } from 'electron';
 export default function AddItem() {
   const context = useContext(AppContext);
   const [url, setUrl] = useState<string>('');
+  const [adding, setAdding] = useState<boolean>(false);
 
   const handleAdd = () => {
-    ipcRenderer.send('read-item', url);
+    if (url) {
+      setAdding(true);
+      ipcRenderer.send('read-item', url);
 
-    context?.setItems((items) => {
-      items.push({
-        title: 'Hello',
-        screenshot: '',
-        id: context?.items.length + 1,
+      ipcRenderer.on('read-item-success', (e, newItem) => {
+        console.log('done', newItem);
+        const id = context ? context?.items.length + 1 : 1;
+        context?.setItems((items) => {
+          items.push({ ...newItem, id });
+          return items;
+        });
+        setAdding(false);
+        setUrl('');
+        context?.setModal(false);
       });
-      return items;
-    });
-
-    context?.setModal(false);
+    }
   };
 
   return context?.modal ? (
     <>
-      <div id="modal">
+      <div
+        id="modal"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleAdd();
+          }
+        }}
+      >
         <input
           type="text"
           id="url"
@@ -34,16 +47,23 @@ export default function AddItem() {
           onChange={(e) => setUrl(e.target.value)}
           autoFocus
         />
-        <button type="button" id="add-item" onClick={() => handleAdd()}>
-          Add Item
-        </button>
         <button
           type="button"
-          id="close-modal"
-          onClick={() => context?.setModal(false)}
+          id="add-item"
+          disabled={url.length === 0}
+          onClick={() => handleAdd()}
         >
-          Cancel
+          {!adding ? 'Add Item' : 'Adding'}
         </button>
+        {!adding && (
+          <button
+            type="button"
+            id="close-modal"
+            onClick={() => context?.setModal(false)}
+          >
+            Cancel
+          </button>
+        )}
       </div>
     </>
   ) : null;
