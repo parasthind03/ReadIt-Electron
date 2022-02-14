@@ -2,7 +2,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import windowStateKeeper from 'electron-window-state';
@@ -20,6 +20,7 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+let readerWindow: BrowserWindow | null = null;
 
 ipcMain.on('read-item', (e, url) => {
   readItem(url, (item) => {
@@ -28,11 +29,24 @@ ipcMain.on('read-item', (e, url) => {
   });
 });
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
+// ipcMain.on('open-window', (e, url) => {
+//   readerWindow = new BrowserWindow({
+//     maxWidth: 2000,
+//     maxHeight: 2000,
+//     width: 1200,
+//     height: 800,
+//     webPreferences: {
+//       nodeIntegration: false,
+//       contextIsolation: true,
+//     },
+//   });
+
+//   readerWindow.loadURL(url);
+
+//   readerWindow.on('closed', () => {
+//     readerWindow = null;
+//   });
+// });
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -116,7 +130,26 @@ const createWindow = async () => {
   // Open urls in the user's browser
   mainWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault();
-    shell.openExternal(url);
+    // shell.openExternal(url);
+    readerWindow = new BrowserWindow({
+      maxWidth: 2000,
+      maxHeight: 2000,
+      width: 1200,
+      height: 800,
+      webPreferences: {
+        nodeIntegration: false,
+        contextIsolation: true,
+        devTools: false,
+      },
+    });
+
+    readerWindow.loadURL(url);
+
+    // readerWindow.webContents.closeDevTools();
+
+    readerWindow.on('closed', () => {
+      readerWindow = null;
+    });
   });
 
   // Remove this if your app does not use auto updates

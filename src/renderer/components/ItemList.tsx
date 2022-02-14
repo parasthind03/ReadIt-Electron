@@ -15,6 +15,7 @@ export default function ItemList() {
                 key={el.id}
                 screenshot={el.screenshot}
                 title={el.title}
+                url={el.url}
               />
             );
           })}

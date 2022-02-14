@@ -14,18 +14,19 @@ export type ItemType = {
   id: number;
   screenshot: string;
   title: string;
+  url: string;
 };
 
-interface AppContextInterface {
+type AppContextInterface = {
   modal: boolean;
   items: ItemType[];
   setModal: Dispatch<boolean>;
   setItems: Dispatch<SetStateAction<ItemType[]>>;
-}
+};
 
-interface Props {
+type Props = {
   children: ReactFragment;
-}
+};
 
 export const AppContext = createContext<AppContextInterface | null>(null);
 
