@@ -22,6 +22,8 @@ type AppContextInterface = {
   items: ItemType[];
   setModal: Dispatch<boolean>;
   setItems: Dispatch<SetStateAction<ItemType[]>>;
+  selectedIndex: number;
+  setSelectedIndex: Dispatch<number>;
 };
 
 type Props = {
@@ -35,14 +37,28 @@ export const Provider = ({ children }: Props) => {
   const [items, setItems] = useState<ItemType[]>(
     JSON.parse(localStorage.getItem('readit-items')!) || []
   );
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
     if (items.length)
       localStorage.setItem('readit-items', JSON.stringify(items));
   }, [items, items.length]);
 
+  useEffect(() => {
+    console.log(selectedIndex);
+  }, [selectedIndex]);
+
   return (
-    <AppContext.Provider value={{ modal, setModal, items, setItems }}>
+    <AppContext.Provider
+      value={{
+        modal,
+        setModal,
+        items,
+        setItems,
+        selectedIndex,
+        setSelectedIndex,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );
