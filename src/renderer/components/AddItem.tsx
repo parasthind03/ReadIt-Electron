@@ -22,12 +22,14 @@ export default function AddItem() {
       ipcRenderer.on('read-item-success', (_, newItem) => {
         // console.log('done', newItem);
         context?.setItems((items) => {
+          console.log(url);
           items.unshift({ ...newItem, url });
           return items;
         });
 
-        setAdding(false);
         setUrl('');
+        console.log(url);
+        setAdding(false);
         context?.setModal(false);
       });
     } else if (url.length > 0) {

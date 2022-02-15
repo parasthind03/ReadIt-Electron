@@ -59,6 +59,7 @@ export const Provider = ({ children }: Props) => {
   useEffect(() => {
     if (items.length)
       localStorage.setItem('readit-items', JSON.stringify(items));
+    console.log(items)
   }, [items, items.length]);
 
   return (
