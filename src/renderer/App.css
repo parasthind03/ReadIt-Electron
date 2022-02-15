@@ -95,6 +95,16 @@ main {
   padding: 10px;
 }
 
+#modal h4 {
+  display: flex;
+  position: fixed;
+  top: 80px;
+  color: #fff;
+  background-color: red;
+  padding: 10px;
+  border-radius: 3px;
+}
+
 #close-modal {
   background: white;
   color: black;

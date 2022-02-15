@@ -10,6 +10,7 @@ export default function AddItem() {
   const context = useContext(AppContext);
   const [url, setUrl] = useState<string>('');
   const [adding, setAdding] = useState<boolean>(false);
+  const [alert, setAlert] = useState<string>('');
 
   const handleAdd = () => {
     const isPresent = context?.items.filter((item) => item.url === url);
@@ -28,6 +29,12 @@ export default function AddItem() {
         setUrl('');
         context?.setModal(false);
       });
+    } else if (url.length > 0) {
+      setAlert('Item already exists');
+      setTimeout(() => {
+        setAlert('');
+        setUrl('');
+      }, 2000);
     }
   };
 
@@ -41,9 +48,11 @@ export default function AddItem() {
           }
         }}
       >
+        {alert.length && <h4>{alert}</h4>}
         <input
           type="text"
           id="url"
+          value={url}
           placeholder="Enter URL"
           onChange={(e) => setUrl(e.target.value)}
           autoFocus
