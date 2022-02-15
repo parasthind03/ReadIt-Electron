@@ -1,9 +1,15 @@
 /* eslint-disable prettier/prettier */
-import { useContext } from 'react';
+import { ipcRenderer } from 'electron';
+import { useContext, useRef } from 'react';
 import { AppContext } from 'renderer/context/Main.context';
 
 export default function Header() {
   const context = useContext(AppContext);
+  const searchInput = useRef<HTMLInputElement>(null);
+
+  ipcRenderer.on('search-item', () => {
+    searchInput?.current?.focus();
+  });
 
   return (
     <>
@@ -15,7 +21,13 @@ export default function Header() {
         >
           +
         </button>
-        <input type="text" id="search" placeholder="Search" />
+        <input
+          type="text"
+          id="search"
+          placeholder="Search"
+          ref={searchInput}
+          onChange={(e) => context?.setSearch(e.target.value)}
+        />
       </header>
     </>
   );

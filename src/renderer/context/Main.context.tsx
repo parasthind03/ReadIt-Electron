@@ -3,7 +3,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable prettier/prettier */
-import { ipcRenderer, shell } from 'electron';
+import { ipcRenderer } from 'electron';
 import {
   createContext,
   Dispatch,
@@ -26,6 +26,8 @@ type AppContextInterface = {
   setItems: Dispatch<SetStateAction<ItemType[]>>;
   selectedIndex: number;
   setSelectedIndex: Dispatch<number>;
+  search: string;
+  setSearch: Dispatch<string>;
 };
 
 type Props = {
@@ -36,6 +38,7 @@ export const AppContext = createContext<AppContextInterface | null>(null);
 
 export const Provider = ({ children }: Props) => {
   const [modal, setModal] = useState(false);
+  const [search, setSearch] = useState<string>('');
   const [items, setItems] = useState<ItemType[]>(
     JSON.parse(localStorage.getItem('readit-items')!) || []
   );
@@ -53,14 +56,6 @@ export const Provider = ({ children }: Props) => {
     setItems([]);
   });
 
-  ipcRenderer.on('menu-open-item', () => {
-    
-  });
-
-  ipcRenderer.on('open-in-browser', () => {
-    
-  });
-
   useEffect(() => {
     if (items.length)
       localStorage.setItem('readit-items', JSON.stringify(items));
@@ -75,6 +70,8 @@ export const Provider = ({ children }: Props) => {
         setItems,
         selectedIndex,
         setSelectedIndex,
+        search,
+        setSearch,
       }}
     >
       {children}
