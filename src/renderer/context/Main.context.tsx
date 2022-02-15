@@ -37,16 +37,12 @@ export const Provider = ({ children }: Props) => {
   const [items, setItems] = useState<ItemType[]>(
     JSON.parse(localStorage.getItem('readit-items')!) || []
   );
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   useEffect(() => {
     if (items.length)
       localStorage.setItem('readit-items', JSON.stringify(items));
   }, [items, items.length]);
-
-  useEffect(() => {
-    console.log(selectedIndex);
-  }, [selectedIndex]);
 
   return (
     <AppContext.Provider

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { AppContext } from 'renderer/context/Main.context';
 
 type PropType = {
@@ -9,24 +9,22 @@ type PropType = {
 function Container({ children }: PropType) {
   const context = useContext(AppContext);
 
-  useEffect(() => {
-    window.addEventListener('keydown', (e) => {
-      // console.log(context?.selectedIndex);
-      // console.log(e.key);
-      if (e.key === 'ArrowDown') {
-        const index = context && context?.selectedIndex + 1;
-        console.log(index);
-        context?.setSelectedIndex(index!);
-      } else if (
-        e.key === 'ArrowUp' &&
-        context !== null &&
-        context.selectedIndex > 0
-      ) {
-        context?.setSelectedIndex(context?.selectedIndex - 1);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleKey = (e: KeyboardEvent) => {
+    // console.log(e.key);
+    const isLess: boolean | undefined =
+      context?.items && context?.selectedIndex < context?.items.length - 1;
+    if (e.key === 'ArrowDown' && isLess) {
+      context?.setSelectedIndex(context?.selectedIndex + 1);
+    } else if (
+      e.key === 'ArrowUp' &&
+      context?.selectedIndex !== undefined &&
+      context?.selectedIndex > 0
+    ) {
+      context?.setSelectedIndex(context?.selectedIndex - 1);
+    }
+  };
+
+  window.addEventListener('keydown', (e) => handleKey(e));
 
   return <div>{children}</div>;
 }
