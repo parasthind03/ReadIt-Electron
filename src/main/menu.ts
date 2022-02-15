@@ -117,6 +117,39 @@ export default class MenuBuilder {
         },
       ],
     };
+    const subMenuItem: MenuItemConstructorOptions = {
+      label: 'Item',
+      submenu: [
+        {
+          label: 'Add Item',
+          accelerator: 'CmdOrCtrl+O',
+          click: () => {
+            this.mainWindow.webContents.send('add-item');
+          },
+        },
+        {
+          label: 'Search Item',
+          accelerator: 'CmdOrCtrl+S',
+          click: () => {
+            this.mainWindow.webContents.send('search-item');
+          },
+        },
+        {
+          label: 'Delete Item',
+          accelerator: 'CmdOrCtrl+D',
+          click: () => {
+            this.mainWindow.webContents.send('delete-item');
+          },
+        },
+        {
+          label: 'Delete All',
+          accelerator: 'CmdOrCtrl+Shift+D',
+          click: () => {
+            this.mainWindow.webContents.send('delete-all-items');
+          },
+        },
+      ],
+    };
     const subMenuWindow: DarwinMenuItemConstructorOptions = {
       label: 'Window',
       submenu: [
@@ -134,29 +167,11 @@ export default class MenuBuilder {
       label: 'Help',
       submenu: [
         {
-          label: 'Learn More',
-          click() {
-            shell.openExternal('https://electronjs.org');
-          },
-        },
-        {
-          label: 'Documentation',
+          label: 'Github',
           click() {
             shell.openExternal(
-              'https://github.com/electron/electron/tree/main/docs#readme'
+              'https://github.com/parasthind03/ReadIt-Electron'
             );
-          },
-        },
-        {
-          label: 'Community Discussions',
-          click() {
-            shell.openExternal('https://www.electronjs.org/community');
-          },
-        },
-        {
-          label: 'Search Issues',
-          click() {
-            shell.openExternal('https://github.com/electron/electron/issues');
           },
         },
       ],
@@ -168,27 +183,18 @@ export default class MenuBuilder {
         ? subMenuViewDev
         : subMenuViewProd;
 
-    return [subMenuAbout, subMenuEdit, subMenuView, subMenuWindow, subMenuHelp];
+    return [
+      subMenuAbout,
+      subMenuEdit,
+      subMenuView,
+      subMenuItem,
+      subMenuWindow,
+      subMenuHelp,
+    ];
   }
 
   buildDefaultTemplate() {
     const templateDefault = [
-      {
-        label: '&File',
-        submenu: [
-          {
-            label: '&Open',
-            accelerator: 'Ctrl+O',
-          },
-          {
-            label: '&Close',
-            accelerator: 'Ctrl+W',
-            click: () => {
-              this.mainWindow.close();
-            },
-          },
-        ],
-      },
       {
         label: '&View',
         submenu:
@@ -242,6 +248,13 @@ export default class MenuBuilder {
             },
           },
           {
+            label: 'Search Item',
+            accelerator: 'CmdOrCtrl+S',
+            click: () => {
+              this.mainWindow.webContents.send('search-item');
+            },
+          },
+          {
             label: 'Delete Item',
             accelerator: 'CmdOrCtrl+D',
             click: () => {
@@ -266,6 +279,13 @@ export default class MenuBuilder {
               shell.openExternal(
                 'https://github.com/parasthind03/ReadIt-Electron'
               );
+            },
+          },
+          {
+            label: 'Quit',
+            accelerator: 'Command+Q',
+            click: () => {
+              app.quit();
             },
           },
         ],
