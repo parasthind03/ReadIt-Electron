@@ -106,7 +106,7 @@ const createWindow = async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
-  // Open urls in the user's browser
+  // Open urls in native windows
   mainWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault();
     // shell.openExternal(url);
@@ -124,7 +124,7 @@ const createWindow = async () => {
 
     readerWindow.loadURL(url);
 
-    // readerWindow.webContents.closeDevTools();
+    readerWindow.webContents.closeDevTools();
 
     readerWindow.on('closed', () => {
       readerWindow = null;
@@ -135,10 +135,6 @@ const createWindow = async () => {
   // eslint-disable-next-line
   new AppUpdater();
 };
-
-/**
- * Add event listeners...
- */
 
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even

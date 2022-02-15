@@ -30,7 +30,6 @@ function readItem(url: string, cb: (item: NewItemType) => void) {
 
       offscreenWindow?.close();
       offscreenWindow = null;
-      // console.log(url);
       cb({ title, screenshot });
     });
   });

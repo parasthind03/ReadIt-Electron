@@ -13,7 +13,7 @@ export default function ItemList() {
 
   let iterableItems;
   if (context?.search && context?.search.length > 0) {
-    console.log(context.search);
+    // console.log(context.search);
     iterableItems = context?.items.filter((el) =>
       el.title.toLowerCase().includes(context?.search.toLowerCase())
     );
@@ -21,7 +21,7 @@ export default function ItemList() {
     iterableItems = context?.items;
   }
 
-  console.log(iterableItems);
+  // console.log(iterableItems);
 
   return (
     <main>
