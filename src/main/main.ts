@@ -28,25 +28,6 @@ ipcMain.on('read-item', (e, url) => {
   });
 });
 
-// ipcMain.on('open-window', (e, url) => {
-//   readerWindow = new BrowserWindow({
-//     maxWidth: 2000,
-//     maxHeight: 2000,
-//     width: 1200,
-//     height: 800,
-//     webPreferences: {
-//       nodeIntegration: false,
-//       contextIsolation: true,
-//     },
-//   });
-
-//   readerWindow.loadURL(url);
-
-//   readerWindow.on('closed', () => {
-//     readerWindow = null;
-//   });
-// });
-
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -98,7 +79,6 @@ const createWindow = async () => {
     height: mainWindowState.height,
     icon: getAssetPath('icon.png'),
     webPreferences: {
-      // preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       contextIsolation: false,
     },

@@ -1,6 +1,9 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-param-reassign */
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable prettier/prettier */
+import { ipcRenderer, shell } from 'electron';
 import {
   createContext,
   Dispatch,
@@ -37,6 +40,26 @@ export const Provider = ({ children }: Props) => {
     JSON.parse(localStorage.getItem('readit-items')!) || []
   );
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+
+  ipcRenderer.on('add-item', () => {
+    setModal(true);
+  });
+
+  ipcRenderer.on('delete-item', () => {
+    setItems((els) => els.filter((_, index) => index !== selectedIndex));
+  });
+
+  ipcRenderer.on('delete-all-items', () => {
+    setItems([]);
+  });
+
+  ipcRenderer.on('menu-open-item', () => {
+    
+  });
+
+  ipcRenderer.on('open-in-browser', () => {
+    
+  });
 
   useEffect(() => {
     if (items.length)

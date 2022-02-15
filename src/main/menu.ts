@@ -20,13 +20,6 @@ export default class MenuBuilder {
   }
 
   buildMenu(): Menu {
-    // if (
-    //   process.env.NODE_ENV === 'development' ||
-    //   process.env.DEBUG_PROD === 'true'
-    // ) {
-    //   this.setupDevelopmentEnvironment();
-    // }
-
     const template =
       process.platform === 'darwin'
         ? this.buildDarwinTemplate()
@@ -37,21 +30,6 @@ export default class MenuBuilder {
 
     return menu;
   }
-
-  // setupDevelopmentEnvironment(): void {
-  //   this.mainWindow.webContents.on('context-menu', (_, props) => {
-  //     const { x, y } = props;
-
-  //     Menu.buildFromTemplate([
-  //       {
-  //         label: 'Inspect element',
-  //         click: () => {
-  //           this.mainWindow.webContents.inspectElement(x, y);
-  //         },
-  //       },
-  //     ]).popup({ window: this.mainWindow });
-  //   });
-  // }
 
   buildDarwinTemplate(): MenuItemConstructorOptions[] {
     const subMenuAbout: DarwinMenuItemConstructorOptions = {
@@ -254,32 +232,40 @@ export default class MenuBuilder {
               ],
       },
       {
+        label: 'Item',
+        submenu: [
+          {
+            label: 'Add Item',
+            accelerator: 'CmdOrCtrl+O',
+            click: () => {
+              this.mainWindow.webContents.send('add-item');
+            },
+          },
+          {
+            label: 'Delete Item',
+            accelerator: 'CmdOrCtrl+D',
+            click: () => {
+              this.mainWindow.webContents.send('delete-item');
+            },
+          },
+          {
+            label: 'Delete All',
+            accelerator: 'CmdOrCtrl+Shift+D',
+            click: () => {
+              this.mainWindow.webContents.send('delete-all-items');
+            },
+          },
+        ],
+      },
+      {
         label: 'Help',
         submenu: [
           {
-            label: 'Learn More',
-            click() {
-              shell.openExternal('https://electronjs.org');
-            },
-          },
-          {
-            label: 'Documentation',
+            label: 'Github',
             click() {
               shell.openExternal(
-                'https://github.com/electron/electron/tree/main/docs#readme'
+                'https://github.com/parasthind03/ReadIt-Electron'
               );
-            },
-          },
-          {
-            label: 'Community Discussions',
-            click() {
-              shell.openExternal('https://www.electronjs.org/community');
-            },
-          },
-          {
-            label: 'Search Issues',
-            click() {
-              shell.openExternal('https://github.com/electron/electron/issues');
             },
           },
         ],
