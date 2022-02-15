@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useContext } from 'react';
 import { AppContext } from 'renderer/context/Main.context';
@@ -10,7 +11,6 @@ function Container({ children }: PropType) {
   const context = useContext(AppContext);
 
   const handleKey = (e: KeyboardEvent) => {
-    // console.log(e.key);
     const isLess: boolean | undefined =
       context?.items && context?.selectedIndex < context?.items.length - 1;
     if (e.key === 'ArrowDown' && isLess) {

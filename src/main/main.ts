@@ -24,7 +24,6 @@ let readerWindow: BrowserWindow | null = null;
 
 ipcMain.on('read-item', (e, url) => {
   readItem(url, (item) => {
-    console.log('item');
     e.sender.send('read-item-success', item);
   });
 });

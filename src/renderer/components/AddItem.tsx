@@ -25,12 +25,14 @@ export default function AddItem() {
           items.unshift({ ...newItem, id, url });
           return items;
         });
+
         setAdding(false);
         setUrl('');
         context?.setModal(false);
       });
     } else if (url.length > 0) {
       setAlert('Item already exists');
+      
       setTimeout(() => {
         setAlert('');
         setUrl('');
