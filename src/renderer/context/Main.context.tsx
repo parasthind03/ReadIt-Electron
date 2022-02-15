@@ -11,7 +11,6 @@ import {
 } from 'react';
 
 export type ItemType = {
-  id: number;
   screenshot: string;
   title: string;
   url: string;

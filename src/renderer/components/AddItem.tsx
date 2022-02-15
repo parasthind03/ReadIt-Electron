@@ -20,9 +20,8 @@ export default function AddItem() {
 
       ipcRenderer.on('read-item-success', (_, newItem) => {
         // console.log('done', newItem);
-        const id = context ? context?.items.length + 1 : 1;
         context?.setItems((items) => {
-          items.unshift({ ...newItem, id, url });
+          items.unshift({ ...newItem, url });
           return items;
         });
 
@@ -32,7 +31,7 @@ export default function AddItem() {
       });
     } else if (url.length > 0) {
       setAlert('Item already exists');
-      
+
       setTimeout(() => {
         setAlert('');
         setUrl('');

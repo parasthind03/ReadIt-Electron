@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable prettier/prettier */
 import { useContext } from 'react';
 
 import { AppContext } from 'renderer/context/Main.context';
@@ -15,7 +17,7 @@ export default function ItemList() {
           {context.items.map((el, index) => {
             return (
               <Item
-                key={el.id}
+                key={index}
                 screenshot={el.screenshot}
                 title={el.title}
                 url={el.url}
