@@ -22,7 +22,7 @@ export default function AddItem() {
         // console.log('done', newItem);
         const id = context ? context?.items.length + 1 : 1;
         context?.setItems((items) => {
-          items.push({ ...newItem, id, url });
+          items.unshift({ ...newItem, id, url });
           return items;
         });
         setAdding(false);
