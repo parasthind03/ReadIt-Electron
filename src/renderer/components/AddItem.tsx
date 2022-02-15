@@ -12,12 +12,13 @@ export default function AddItem() {
   const [adding, setAdding] = useState<boolean>(false);
 
   const handleAdd = () => {
-    if (url) {
+    const isPresent = context?.items.filter((item) => item.url === url);
+    if (url && isPresent?.length === 0) {
       setAdding(true);
       ipcRenderer.send('read-item', url);
 
-      ipcRenderer.on('read-item-success', (e, newItem) => {
-        console.log('done', newItem);
+      ipcRenderer.on('read-item-success', (_, newItem) => {
+        // console.log('done', newItem);
         const id = context ? context?.items.length + 1 : 1;
         context?.setItems((items) => {
           items.push({ ...newItem, id, url });

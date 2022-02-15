@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { useContext, useState, KeyboardEvent } from 'react';
+import { useContext } from 'react';
 
 import { AppContext } from 'renderer/context/Main.context';
 import Item from './Item';
